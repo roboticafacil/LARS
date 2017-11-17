@@ -281,45 +281,55 @@ void LARS::hello() {
 }
 
 void LARS::wave(int legNumber){
+	int amplitude[] = { 0,0,0,0,0,0,0,0};
+    int offsetLeg[] = { 0,0,0,0,0,0,0,0};
 
   int T = 350;
-  switch ( legNumer) {
-	  case 1 : 
-		int amplitude[] = {0, 60, 0, 0, 0, 0, 0, 0};
+  switch ( legNumber) {
+	  case 1 : {
+		amplitude[1] = 60;
 		int offset[] = {
 			90-20 , 90-60,
 			90 , 90+70 ,
 			90 , 90+90 ,
 			90+140 , 90
 		};
+		memcpy ( &offsetLeg, &offset, sizeof(offset) );
 		break;
-	  case 2 : 
-		int amplitude[] = {60, 0, 0, 0, 0, 0, 0, 0};
-		int offset[] = {
+	  }
+	  case 2 : {
+		amplitude[0] = 60;
+		int offset[]  = {
 			90-60 , 90-20,
 			90+70 , 90 ,
 			90 , 90+90 ,
 			90+140 , 90
 		};
+		memcpy ( &offsetLeg, &offset, sizeof(offset) );
 		break;
-	  case 3 : 
-		int amplitude[] = {0, 0, 0, 0, 60, 0, 0, 0};
-		int offset[] = {
+	  }
+	  case 3 : {
+		amplitude[4] = 60;
+		int offset[]  = {
 			90-20 , 90-60,
 			90 , 90+70 ,
 			90 , 90+90 ,
 			90+140 , 90
 		};
+		memcpy ( &offsetLeg, &offset, sizeof(offset) );
 		break;
-	  case 4 : 
-		int amplitude[] = {0, 0, 0, 0, 0, 60, 0, 0};
-		int offset[] = {
+	  }
+	  case 4 : {
+		amplitude[5]= 60;
+		int offset[]  = {
 			90-20 , 90-60,
 			90 , 90+70 ,
 			90 , 90+90 ,
 			90+140 , 90
 		};
+		memcpy ( &offsetLeg, &offset, sizeof(offset) );
 		break;
+	  }
 	  default : 
 	    if (debug) Serial.println("Error, leg does not exist");
 		break;
@@ -328,7 +338,7 @@ void LARS::wave(int legNumber){
   float period[] = {T, T, T, T, T, T, T, T};
   int phase[] = {0, 0, 0, 90, 0, 0, 0, 0};
   
-  execute(3, period, amplitude, offset, phase);
+  execute(3, period, amplitude, offsetLeg, phase);
   delay (200);
 }
 
