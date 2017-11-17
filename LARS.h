@@ -1,8 +1,10 @@
 #ifndef LARS_h
 #define LARS_h
+#include <ESP32_Servo.h>
 #include "Octosnake.h"
 
 // servo index to board_pins
+#define debug 0
 
 #define FRONT_RIGHT_HIP 0
 #define FRONT_LEFT_HIP 1
@@ -28,7 +30,7 @@ class LARS {
     void pushUp(float steps, float period);
     void hello();
     void home();
-    void wave();
+    void wave(int legNumber);
 
     void setServo(int id, float target);
     void reverseServo(int id);
@@ -37,8 +39,6 @@ class LARS {
     void setTrim(int index, int value) {
       trim[index] = value;
     }
-    void storeTrim();
-    void loadTrim();
   private:
     Oscillator oscillator[8];
     Servo servo[8];
@@ -55,8 +55,7 @@ class LARS {
     inline int angToUsec(float value) {
       return value / 180 * (MAX_PULSE_WIDTH - MIN_PULSE_WIDTH) + MIN_PULSE_WIDTH;
     };
-    int EEPROMReadWord(int p_address);
-    void EEPROMWriteWord(int p_address, int p_value);
+
 };
 
 #endif

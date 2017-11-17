@@ -1,7 +1,5 @@
-#include <ESP32_Servo.h>
-
 #include "Octosnake.h"
-//#include <Servo.h>
+#include <Arduino.h>
 
 Oscillator::Oscillator(){
     _period = 2000;

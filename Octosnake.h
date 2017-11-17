@@ -1,16 +1,9 @@
-#include <ESP32_Servo.h>
-
 #ifndef octosnake_h
 #define octosnake_h
-
-#include <Arduino.h>
-//#include <Servo.h>
-
 
 #ifndef PI
   #define PI 3.14159
 #endif
-
 
 class Oscillator{
 
