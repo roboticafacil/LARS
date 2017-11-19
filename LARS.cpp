@@ -1,5 +1,5 @@
-#include <EEPROM.h>
 #include "LARS.h"
+#include <Arduino.h>
 
 /*
    (servo index, pin to attach pwm)
@@ -14,11 +14,6 @@
   |__|                                 |__|
 
 */
-//comment below manually setting trim in LARS() constructor
-#define __LOAD_TRIM_FROM_EEPROM__
-
-#define EEPROM_MAGIC  0xabcd
-#define EEPROM_OFFSET 2   //eeprom starting offset to store trim[]
 
 
 LARS::LARS(): reverse{0, 0, 0, 0, 0, 0, 0, 0}, trim{0, 0, 0, 0, 0, 0, 0, 0} {
@@ -55,23 +50,10 @@ void LARS::init() {
     trim[BACK_LEFT_LEG] = 6;
     trim[BACK_RIGHT_LEG] = 5;
   */
-#ifdef __LOAD_TRIM_FROM_EEPROM__
-  int val = EEPROMReadWord(0);
-  if (val != EEPROM_MAGIC) {
-    EEPROMWriteWord(0, EEPROM_MAGIC);
-    storeTrim();
-  }
-#endif
-
+  
   for (int i = 0; i < 8; i++) {
     oscillator[i].start();
     servo[i].attach(board_pins[i]);
-#ifdef __LOAD_TRIM_FROM_EEPROM__
-    int val = EEPROMReadWord(i * 2 + EEPROM_OFFSET);
-    if (val >= -90 && val <= 90) {
-      trim[i] = val;
-    }
-#endif
   }
 
   home();
@@ -272,8 +254,8 @@ void LARS::pushUp(float steps, float T = 600) {
 }
 
 void LARS::hello() {
-  float sentado[] = {90 + 15, 90 - 15, 90 - 65, 90 + 65, 90 + 20, 90 - 20, 90 + 10, 90 - 10};
-  moveServos(150, sentado);
+  float seated[] = {90 + 15, 90 - 15, 90 - 65, 90 + 65, 90 + 20, 90 - 20, 90 + 10, 90 - 10};
+  moveServos(150, seated);
   delay(200);
 
   int z_amp = 40;
@@ -298,23 +280,65 @@ void LARS::hello() {
 
 }
 
-void LARS::wave(){
+void LARS::wave(int legNumber){
+	int amplitude[] = { 0,0,0,0,0,0,0,0};
+    int offsetLeg[] = { 0,0,0,0,0,0,0,0};
 
-  int z_amp = 40;
-  int x_amp = 60;
   int T = 350;
+  switch ( legNumber) {
+	  case 1 : {
+		amplitude[1] = 60;
+		int offset[] = {
+			90-20 , 90-60,
+			90 , 90+70 ,
+			90 , 90+90 ,
+			90+140 , 90
+		};
+		memcpy ( &offsetLeg, &offset, sizeof(offset) );
+		break;
+	  }
+	  case 2 : {
+		amplitude[0] = 60;
+		int offset[]  = {
+			90-60 , 90-20,
+			90+70 , 90 ,
+			90 , 90+90 ,
+			90+140 , 90
+		};
+		memcpy ( &offsetLeg, &offset, sizeof(offset) );
+		break;
+	  }
+	  case 3 : {
+		amplitude[4] = 60;
+		int offset[]  = {
+			90-20 , 90-60,
+			90 , 90+70 ,
+			90 , 90+90 ,
+			90+140 , 90
+		};
+		memcpy ( &offsetLeg, &offset, sizeof(offset) );
+		break;
+	  }
+	  case 4 : {
+		amplitude[5]= 60;
+		int offset[]  = {
+			90-20 , 90-60,
+			90 , 90+70 ,
+			90 , 90+90 ,
+			90+140 , 90
+		};
+		memcpy ( &offsetLeg, &offset, sizeof(offset) );
+		break;
+	  }
+	  default : 
+	    if (debug) Serial.println("Error, leg does not exist");
+		break;
+  }
   
   float period[] = {T, T, T, T, T, T, T, T};
-  int amplitude[] = {0, 60, 0, 0, 0, 0, 0, 0};
-    int offset[] = {
-    90-20 , 90-60,
-    90 , 90+70 ,
-    90 , 90+90 ,
-    90+140 , 90
-  };
-
   int phase[] = {0, 0, 0, 90, 0, 0, 0, 0};
-  execute(3, period, amplitude, offset, phase);
+  
+  execute(3, period, amplitude, offsetLeg, phase);
   delay (200);
 }
 
@@ -392,41 +416,3 @@ void LARS::execute(float steps, float period[8], int amplitude[8], int offset[8]
     yield();
   }
 }
-void LARS::storeTrim() {
-  for (int i = 0; i < 8; i++) {
-    EEPROMWriteWord(i * 2 + EEPROM_OFFSET, trim[i]);
-    delay(100);
-  }
-
-}
-
-// load/send only trim of hip servo
-void LARS::loadTrim() {
-  //FRONT_LEFT/RIGHT_HIP
-  for (int i = 0; i < 4; i++) {
-    Serial.write(EEPROM.read(i + EEPROM_OFFSET));
-  }
-  
-  //BACK_LEFT/RIGHT_HIP
-  for (int i = 8; i < 12; i++) {
-    Serial.write(EEPROM.read(i + EEPROM_OFFSET));
-  }
-}
-
-int LARS::EEPROMReadWord(int p_address)
-{
-  byte lowByte = EEPROM.read(p_address);
-  byte highByte = EEPROM.read(p_address + 1);
-
-  return ((lowByte << 0) & 0xFF) + ((highByte << 8) & 0xFF00);
-}
-
-void LARS::EEPROMWriteWord(int p_address, int p_value)
-{
-  byte lowByte = ((p_value >> 0) & 0xFF);
-  byte highByte = ((p_value >> 8) & 0xFF);
-
-  EEPROM.write(p_address, lowByte);
-  EEPROM.write(p_address + 1, highByte);
-}
-
