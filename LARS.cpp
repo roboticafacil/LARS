@@ -17,14 +17,14 @@
 
 
 LARS::LARS(): reverse{0, 0, 0, 0, 0, 0, 0, 0}, trim{0, 0, 0, 0, 0, 0, 0, 0} {
-  board_pins[FRONT_RIGHT_HIP] = 26; // front left inner
-  board_pins[FRONT_LEFT_HIP] = 25; // front right inner
-  board_pins[BACK_RIGHT_HIP] = 17; // back left inner
-  board_pins[BACK_LEFT_HIP] = 16; // back right inner
-  board_pins[FRONT_RIGHT_LEG] = 27; // front left outer
-  board_pins[FRONT_LEFT_LEG] = 14; // front right outer               // 15, 14, 12 free for Lukas
-  board_pins[BACK_RIGHT_LEG] = 12; // back left outer
-  board_pins[BACK_LEFT_LEG] = 13; // back right outer
+  board_pins[FRONT_RIGHT_HIP] = 26; // front right inner
+  board_pins[FRONT_LEFT_HIP] = 25; // front left inner
+  board_pins[BACK_RIGHT_HIP] = 17; // back right inner
+  board_pins[BACK_LEFT_HIP] = 16; // back left inner									
+  board_pins[FRONT_RIGHT_LEG] = 27; // front right outer 
+  board_pins[FRONT_LEFT_LEG] = 14; //  front left outer       // POSITIONS LOOKING FROM THE MIDDLE OF THE ROBOT!!!!!
+  board_pins[BACK_RIGHT_LEG] = 12; // back right outer
+  board_pins[BACK_LEFT_LEG] = 13; // back left outer
 }
 
 void LARS::init() {
@@ -152,12 +152,12 @@ void LARS::moonwalkL(float steps, float T = 5000) {
 
 
 void LARS::walk(int dir, float steps, float T) {
-  int x_amp = 15;
+  int x_amp = 30;//15;
   int x_amp_test = 50;
   int z_amp = 20;
   int z_amp_test = 50;
   int ap = 20;
-  int hi = 23;
+  int hi = 0; //23;
   //int hi = -10;
   //int front_x = 12;             // inner back, inner back , outer back, outer back, inner front  , inner  front, outer front , outer front
   int front_x = 0;
@@ -165,12 +165,12 @@ void LARS::walk(int dir, float steps, float T) {
   int amplitude[] = {x_amp, x_amp, z_amp_test, z_amp_test, x_amp, x_amp, z_amp_test, z_amp_test};
   int offset[] = {   90 + ap - front_x,
                      90 - ap + front_x,
-                     90 - hi ,
-                     90 + hi,
+                     90 - hi +30,
+                     90 + hi -30,
                      90 - ap - front_x,
                      90 + ap + front_x,
-                     90 + hi,
-                     90 - hi 
+                     90 + hi -30,
+                     90 - hi +30 
                     /* 90,
                      90,
                      90,
@@ -182,7 +182,7 @@ void LARS::walk(int dir, float steps, float T) {
                  };
   //int  phase[] = {90, 90, 270, 90, 270, 270, 90, 270};
   int  phase[] = {270, 270, 270, 90, 90, 90, 90, 270};
-  if (dir == 0) { //backward
+  if (dir == 0) { //forward
     phase[0] = phase[1] = 90;
     phase[4] = phase[5] = 270;
   }
@@ -300,10 +300,10 @@ void LARS::wave(int legNumber){
 	  case 2 : {
 		amplitude[0] = 60;
 		int offset[]  = {
-			90-60 , 90-20,
-			90+70 , 90 ,
-			90 , 90+90 ,
-			90+140 , 90
+			90-20 , 90+20,
+			90-70 , 90 ,
+			90-60 , 90+90 ,
+			90 , 90 -70
 		};
 		memcpy ( &offsetLeg, &offset, sizeof(offset) );
 		break;
@@ -311,21 +311,21 @@ void LARS::wave(int legNumber){
 	  case 3 : {
 		amplitude[4] = 60;
 		int offset[]  = {
-			90-20 , 90-60,
+			90+40 , 90-60,
 			90 , 90+70 ,
-			90 , 90+90 ,
+			90 , 90+0 ,
 			90+140 , 90
 		};
 		memcpy ( &offsetLeg, &offset, sizeof(offset) );
 		break;
 	  }
 	  case 4 : {
-		amplitude[5]= 60;
+		amplitude[5]= 90;
 		int offset[]  = {
 			90-20 , 90-60,
-			90 , 90+70 ,
-			90 , 90+90 ,
-			90+140 , 90
+			90-70 , 90 ,
+			90+20 , 90+90 ,
+			90 , 90-70
 		};
 		memcpy ( &offsetLeg, &offset, sizeof(offset) );
 		break;
