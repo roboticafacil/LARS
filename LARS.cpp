@@ -22,8 +22,8 @@ LARS::LARS(): reverse{0, 0, 0, 0, 0, 0, 0, 0}, trim{0, 0, 0, 0, 0, 0, 0, 0} {
   board_pins[BACK_RIGHT_HIP] = 17; // back right inner
   board_pins[BACK_LEFT_HIP] = 16; // back left inner									
   board_pins[FRONT_RIGHT_LEG] = 27; // front right outer 
-  board_pins[FRONT_LEFT_LEG] = 14; //  front left outer       // POSITIONS LOOKING FROM THE MIDDLE OF THE ROBOT!!!!!
-  board_pins[BACK_RIGHT_LEG] = 12; // back right outer
+  board_pins[FRONT_LEFT_LEG] = 5; //  front left outer       // POSITIONS LOOKING FROM THE MIDDLE OF THE ROBOT!!!!!
+  board_pins[BACK_RIGHT_LEG] = 23; // back right outer
   board_pins[BACK_LEFT_LEG] = 13; // back left outer
 }
 
