@@ -36,9 +36,7 @@ class LARS {
     void reverseServo(int id);
     float getServo(int id);
     void moveServos(int time, float target[8]);
-    void setTrim(int index, int value) {
-      trim[index] = value;
-    }
+
   private:
     Oscillator oscillator[8];
     Servo servo[8];
