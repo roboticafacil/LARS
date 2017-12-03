@@ -24,7 +24,7 @@ class LARS {
     void omniWalk(float steps, float T, bool side, float turn_factor);
     void turnL(float steps, float period);
     void turnR(float steps, float period);
-    void moonwalkL(float steps, float period);
+    void moonwalk(float steps, float period);
     void dance(float steps, float period);
     void upDown(float steps, float period);
     void pushUp(float steps, float period);

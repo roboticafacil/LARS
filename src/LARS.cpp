@@ -50,7 +50,7 @@ void LARS::init() {
     trim[BACK_LEFT_LEG] = 6;
     trim[BACK_RIGHT_LEG] = 5;
   */
-  
+
   for (int i = 0; i < 8; i++) {
     oscillator[i].start();
     servo[i].attach(board_pins[i]);
@@ -140,7 +140,7 @@ void LARS::omniWalk(float steps, float T, bool side, float turn_factor) {
   execute(steps, period, amplitude, offset, phase);
 }
 
-void LARS::moonwalkL(float steps, float T = 5000) {
+void LARS::moonwalk(float steps, float T = 5000) {
   int z_amp = 45;
   float period[] = {T, T, T, T, T, T, T, T};
   int amplitude[] = {0, 0, z_amp, z_amp, 0, 0, z_amp, z_amp};
@@ -170,7 +170,7 @@ void LARS::walk(int dir, float steps, float T) {
                      90 - ap - front_x,
                      90 + ap + front_x,
                      90 + hi,
-                     90 - hi 
+                     90 - hi
                     /* 90,
                      90,
                      90,
@@ -330,14 +330,14 @@ void LARS::wave(int legNumber){
 		memcpy ( &offsetLeg, &offset, sizeof(offset) );
 		break;
 	  }
-	  default : 
+	  default :
 	    if (debug) Serial.println("Error, leg does not exist");
 		break;
   }
-  
+
   float period[] = {T, T, T, T, T, T, T, T};
   int phase[] = {0, 0, 0, 90, 0, 0, 0, 0};
-  
+
   execute(3, period, amplitude, offsetLeg, phase);
   delay (200);
 }
