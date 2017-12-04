@@ -1,3 +1,29 @@
+/*
+Blockly.Blocks['espui_prepare_fs'] = {
+    category: 'ESPUI',
+    colour: '#3357c7',
+    helpUrl: Facilino.getHelpUrl('espui'),
+    tags: ['webinterface'],
+    examples: ['lol.bly'],
+    init: function() {
+        var wifiOptions = [
+            ['No', false],
+            ['Yes', true]
+          ];
+        this.appendDummyInput()
+            .appendField('Prepare FileSystem (upload once without other in setup code, then omit)');
+    }
+};
+
+Blockly.Arduino['espui_prepare_fs'] = function(block) {
+    var wifi_option = block.getFieldValue('wifi_option');
+    Blockly.Arduino.definitions_['define_espui_h'] = '#include <ESPUI.h>';
+    Blockly.Arduino.setups_['setup_espui'] = '\n';
+    Blockly.Arduino.setups_['setup_espui'] += '    ESPUI.prepareFileSystem();\n';
+    return null;
+};
+
+ */
 Blockly.Blocks['walk_forward'] = {
   category: Facilino.locales.getKey('LANG_CATEGORY_BLOCKS'),
   helpUrl: Facilino.getHelpUrl('walk_forward'),
