@@ -20,6 +20,7 @@ class LARS {
   public:
     LARS();
     void init();
+	void init(int FRH, int FLH, int BRH, int BLH, int FRL, int FLL, int BRL, int BLL);
     void walk(int dir = 1, float steps = 1, float T = 800); // T initial 400
     void omniWalk(float steps, float T, bool side, float turn_factor);
     void turnL(float steps, float period);

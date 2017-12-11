@@ -59,6 +59,18 @@ void LARS::init() {
   home();
 }
 
+void init(int FRH, int FLH, int BRH, int BLH, int FRL, int FLL, int BRL, int BLL)
+{
+	board_pins[FRONT_RIGHT_HIP] = FRH; // front right inner
+	board_pins[FRONT_LEFT_HIP] = FLH; // front left inner
+	board_pins[BACK_RIGHT_HIP] = BRH; // back right inner
+	board_pins[BACK_LEFT_HIP] = BLH; // back left inner
+	board_pins[FRONT_RIGHT_LEG] = FRL; // front right outer
+	board_pins[FRONT_LEFT_LEG] = FLL; //  front left outer       // POSITIONS LOOKING FROM THE MIDDLE OF THE ROBOT!!!!!
+	board_pins[BACK_RIGHT_LEG] = BRL; // back right outer
+	board_pins[BACK_LEFT_LEG] = BLL; // back left outer
+}
+
 void LARS::turnR(float steps, float T = 600) {
   //int x_amp = 15;
   //int z_amp = 15;
