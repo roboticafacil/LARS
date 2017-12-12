@@ -1,6 +1,12 @@
 #ifndef LARS_h
 #define LARS_h
-#include <ESP32_Servo.h>
+
+#if defined(ESP32)
+  #include <ESP32_Servo.h>
+#else
+  #include <Servo.h>
+#endif
+
 #include "Octosnake.h"
 
 // servo index to board_pins
@@ -20,7 +26,7 @@ class LARS {
   public:
     LARS();
     void init();
-    void walk(int dir = 1, float steps = 1, float T = 800); // T initial 400
+    void walk(int dir = 0, float steps = 1, float T = 800); // T initial 400
     void omniWalk(float steps, float T, bool side, float turn_factor);
     void turnL(float steps, float period);
     void turnR(float steps, float period);
