@@ -36,7 +36,7 @@ Blockly.Arduino['LARS_init'] = function(block) {
 			  var input_FLL = Blockly.Arduino.valueToCode(this,'FLL',Blockly.Arduino.ORDER_ATOMIC) || '5';
 			  var input_BRL = Blockly.Arduino.valueToCode(this,'BRL',Blockly.Arduino.ORDER_ATOMIC) || '23';
 			  var input_BLL = Blockly.Arduino.valueToCode(this,'BLL',Blockly.Arduino.ORDER_ATOMIC) || '13';
-			  Blockly.Arduino.definitions_['define_simpleexpressions_h'] = '#include <LARS.h>';
+			  Blockly.Arduino.definitions_['define_lars_h'] = '#include <LARS.h>';
 			  Blockly.Arduino.definitions_['declare_var_define_lars']='LARS lars;\n';
 			  Blockly.Arduino.setups_['setup_lars_init'] = 'lars.init('+input_FRH+','+input_FLH+','+input_BRH+','+input_BLH+','+input_FRL+','+input_FLL+','+input_BRL+','+input_BLL+');\n';
 			  return code;
