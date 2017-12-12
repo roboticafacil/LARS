@@ -4,18 +4,27 @@ Facilino.LANG_COLOUR_MOVEMENT_WALK = '#8D8D25';
 Blockly.Blocks['LARS_init'] = {
 	category: Facilino.locales.getKey('LANG_CATEGORY_MOVEMENT'),
 	subcategory: Facilino.locales.getKey('LANG_SUBCATEGORY_WALK'),
-	helpUrl: Facilino.getHelpUrl('LARS_init'),
 	category_colour: Facilino.LANG_COLOUR_MOVEMENT,
 	colour: Facilino.LANG_COLOUR_MOVEMENT_WALK,
+	helpUrl: Facilino.getHelpUrl('LARS_init'),
 	tags: [],
 	examples: [],
 	init: function () {
+		this.appendDummyInput('').appendField(new Blockly.FieldImage('img/blocks/LARS.svg', 32*options.zoom, 32*options.zoom)).appendField(Facilino.locales.getKey('LANG_MOVEMENT_LARS_ROBOT'));
+		this.appendValueInput('FRH').appendField(new Blockly.FieldImage('img/blocks/LARS_FRH.svg', 24*options.zoom, 24*options.zoom)).appendField(Facilino.locales.getKey('LANG_MOVEMENT_LARS_FRH')).appendField(new Blockly.FieldImage('img/blocks/pwm_signal.svg', 24*options.zoom, 24*options.zoom)).setAlign(Blockly.ALIGN_RIGHT);
+		this.appendValueInput('FLH').appendField(new Blockly.FieldImage('img/blocks/LARS_FLH.svg', 24*options.zoom, 24*options.zoom)).appendField(Facilino.locales.getKey('LANG_MOVEMENT_LARS_FLH')).appendField(new Blockly.FieldImage('img/blocks/pwm_signal.svg', 24*options.zoom, 24*options.zoom)).setAlign(Blockly.ALIGN_RIGHT);
+		this.appendValueInput('BRH').appendField(new Blockly.FieldImage('img/blocks/LARS_BRH.svg', 24*options.zoom, 24*options.zoom)).appendField(Facilino.locales.getKey('LANG_MOVEMENT_LARS_BRH')).appendField(new Blockly.FieldImage('img/blocks/pwm_signal.svg', 24*options.zoom, 24*options.zoom)).setAlign(Blockly.ALIGN_RIGHT);
+		this.appendValueInput('BLH').appendField(new Blockly.FieldImage('img/blocks/LARS_BLH.svg', 24*options.zoom, 24*options.zoom)).appendField(Facilino.locales.getKey('LANG_MOVEMENT_LARS_BLH')).appendField(new Blockly.FieldImage('img/blocks/pwm_signal.svg', 24*options.zoom, 24*options.zoom)).setAlign(Blockly.ALIGN_RIGHT);
+		this.appendValueInput('FRL').appendField(new Blockly.FieldImage('img/blocks/LARS_FRL.svg', 24*options.zoom, 24*options.zoom)).appendField(Facilino.locales.getKey('LANG_MOVEMENT_LARS_FRL')).appendField(new Blockly.FieldImage('img/blocks/pwm_signal.svg', 24*options.zoom, 24*options.zoom)).setAlign(Blockly.ALIGN_RIGHT);
+		this.appendValueInput('FLL').appendField(new Blockly.FieldImage('img/blocks/LARS_FLL.svg', 24*options.zoom, 24*options.zoom)).appendField(Facilino.locales.getKey('LANG_MOVEMENT_LARS_FLL')).appendField(new Blockly.FieldImage('img/blocks/pwm_signal.svg', 24*options.zoom, 24*options.zoom)).setAlign(Blockly.ALIGN_RIGHT);
+		this.appendValueInput('BRL').appendField(new Blockly.FieldImage('img/blocks/LARS_BRL.svg', 24*options.zoom, 24*options.zoom)).appendField(Facilino.locales.getKey('LANG_MOVEMENT_LARS_BRL')).appendField(new Blockly.FieldImage('img/blocks/pwm_signal.svg', 24*options.zoom, 24*options.zoom)).setAlign(Blockly.ALIGN_RIGHT);
+		this.appendValueInput('BLL').appendField(new Blockly.FieldImage('img/blocks/LARS_BLL.svg', 24*options.zoom, 24*options.zoom)).appendField(Facilino.locales.getKey('LANG_MOVEMENT_LARS_BLL')).appendField(new Blockly.FieldImage('img/blocks/pwm_signal.svg', 24*options.zoom, 24*options.zoom)).setAlign(Blockly.ALIGN_RIGHT);
 		this.setPreviousStatement(true,'code');
 		this.setNextStatement(true,'code');
 		this.setColour(Facilino.LANG_COLOUR_MOVEMENT_WALK);
 		this.setTooltip(Facilino.locales.getKey('LANG_LARS_INIT_TOOLTIP'));
 	}
-}
+};
 
 Blockly.Arduino['LARS_init'] = function(block) {
 			  var code='';
