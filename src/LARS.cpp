@@ -16,7 +16,7 @@
 */
 
 
-LARS::LARS(int FRH = 26, int FLH = 25, int BRH = 17, int BLH = 16, int FRL = 27, int FLL = 5, int BRL = 23, int BLL = 13): reverse{0, 0, 0, 0, 0, 0, 0, 0}, trim{0, 0, 0, 0, 0, 0, 0, 0} {
+LARS::LARS(int FRH, int FLH, int BRH, int BLH, int FRL, int FLL, int BRL, int BLL): reverse{0, 0, 0, 0, 0, 0, 0, 0}, trim{0, 0, 0, 0, 0, 0, 0, 0} {
   board_pins[FRONT_RIGHT_HIP] = FRH; // front right inner
 	board_pins[FRONT_LEFT_HIP] = FLH; // front left inner
 	board_pins[BACK_RIGHT_HIP] = BRH; // back right inner
