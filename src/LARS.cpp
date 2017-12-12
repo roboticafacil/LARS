@@ -16,15 +16,15 @@
 */
 
 
-LARS::LARS(): reverse{0, 0, 0, 0, 0, 0, 0, 0}, trim{0, 0, 0, 0, 0, 0, 0, 0} {
-  board_pins[FRONT_RIGHT_HIP] = 26; // front right inner
-  board_pins[FRONT_LEFT_HIP] = 25; // front left inner
-  board_pins[BACK_RIGHT_HIP] = 17; // back right inner
-  board_pins[BACK_LEFT_HIP] = 16; // back left inner
-  board_pins[FRONT_RIGHT_LEG] = 27; // front right outer
-  board_pins[FRONT_LEFT_LEG] = 5; //  front left outer       // POSITIONS LOOKING FROM THE MIDDLE OF THE ROBOT!!!!!
-  board_pins[BACK_RIGHT_LEG] = 23; // back right outer
-  board_pins[BACK_LEFT_LEG] = 13; // back left outer
+LARS::LARS(int FRH = 26, int FLH = 25, int BRH = 17, int BLH = 16, int FRL = 27, int FLL = 5, int BRL = 23, int BLL = 13): reverse{0, 0, 0, 0, 0, 0, 0, 0}, trim{0, 0, 0, 0, 0, 0, 0, 0} {
+  board_pins[FRONT_RIGHT_HIP] = FRH; // front right inner
+	board_pins[FRONT_LEFT_HIP] = FLH; // front left inner
+	board_pins[BACK_RIGHT_HIP] = BRH; // back right inner
+	board_pins[BACK_LEFT_HIP] = BLH; // back left inner
+	board_pins[FRONT_RIGHT_LEG] = FRL; // front right outer
+	board_pins[FRONT_LEFT_LEG] = FLL; //  front left outer       // POSITIONS LOOKING FROM THE MIDDLE OF THE ROBOT!!!!!
+	board_pins[BACK_RIGHT_LEG] = BRL; // back right outer
+	board_pins[BACK_LEFT_LEG] = BLL; // back left outer
 }
 
 void LARS::init() {

@@ -1,349 +1,200 @@
-/*
-Blockly.Blocks['espui_prepare_fs'] = {
-    category: 'ESPUI',
-    colour: '#3357c7',
-    helpUrl: Facilino.getHelpUrl('espui'),
-    tags: ['webinterface'],
-    examples: ['lol.bly'],
-    init: function() {
-        var wifiOptions = [
-            ['No', false],
-            ['Yes', true]
-          ];
-        this.appendDummyInput()
-            .appendField('Prepare FileSystem (upload once without other in setup code, then omit)');
-    }
-};
+Facilino.LANG_COLOUR_MOVEMENT = '#CECE42';
+Facilino.LANG_COLOUR_MOVEMENT_WALK = '#8D8D25';
 
-Blockly.Arduino['espui_prepare_fs'] = function(block) {
-    var wifi_option = block.getFieldValue('wifi_option');
-    Blockly.Arduino.definitions_['define_espui_h'] = '#include <ESPUI.h>';
-    Blockly.Arduino.setups_['setup_espui'] = '\n';
-    Blockly.Arduino.setups_['setup_espui'] += '    ESPUI.prepareFileSystem();\n';
-    return null;
-};
+Blockly.Blocks['LARS_init'] = {
+	category: Facilino.locales.getKey('LANG_CATEGORY_MOVEMENT'),
+	subcategory: Facilino.locales.getKey('LANG_SUBCATEGORY_WALK'),
+	helpUrl: Facilino.getHelpUrl('LARS_init'),
+	category_colour: Facilino.LANG_COLOUR_MOVEMENT,
+	colour: Facilino.LANG_COLOUR_MOVEMENT_WALK,
+	tags: [],
+	examples: [],
+	init: function () {
+		this.setPreviousStatement(true,'code');
+		this.setNextStatement(true,'code');
+		this.setColour(Facilino.LANG_COLOUR_MOVEMENT_WALK);
+		this.setTooltip(Facilino.locales.getKey('LANG_LARS_INIT_TOOLTIP'));
+	}
+}
 
- */
-Blockly.Blocks['walk_forward'] = {
-  category: Facilino.locales.getKey('LANG_CATEGORY_BLOCKS'),
-  helpUrl: Facilino.getHelpUrl('walk_forward'),
-  tags: [],
-  examples: [],
-	  init: function() {
-	this.setPreviousStatement(true, null);
-	this.setNextStatement(true, null);
-    this.appendDummyInput()
-        .appendField("Walking");
-    this.setColour("#FF00FF");
-    this.setTooltip("");
+Blockly.Arduino['LARS_movement'] = function() {
+				var code='';
+				var movement = this.getFieldValue('MOVEMENT');
+				if (movement==='0')
+					code+='lars.home();\n';
+				else if (movement==='1')
+					code+='lars.hello();\n';
+				else if (movement==='2')
+					code+='lars.wave('+(Blockly.Arduino.valueToCode(this, 'INP1', Blockly.Arduino.ORDER_ATOMIC) || '1')+');\n';
+				else if (movement==='3')
+					code+='lars.turnL('+(Blockly.Arduino.valueToCode(this, 'INP1', Blockly.Arduino.ORDER_ATOMIC) || '1')+','+(Blockly.Arduino.valueToCode(this, 'INP2', Blockly.Arduino.ORDER_ATOMIC) || '600')+');\n';
+				else if (movement==='4')
+					code+='lars.turnR('+(Blockly.Arduino.valueToCode(this, 'INP1', Blockly.Arduino.ORDER_ATOMIC) || '1')+','+(Blockly.Arduino.valueToCode(this, 'INP2', Blockly.Arduino.ORDER_ATOMIC) || '600')+');\n';
+				else if (movement==='5')
+					code+='lars.moonwalk('+(Blockly.Arduino.valueToCode(this, 'INP1', Blockly.Arduino.ORDER_ATOMIC) || '1')+','+(Blockly.Arduino.valueToCode(this, 'INP2', Blockly.Arduino.ORDER_ATOMIC) || '5000')+');\n';
+				else if (movement==='6')
+					code+='lars.dance('+(Blockly.Arduino.valueToCode(this, 'INP1', Blockly.Arduino.ORDER_ATOMIC) || '1')+','+(Blockly.Arduino.valueToCode(this, 'INP2', Blockly.Arduino.ORDER_ATOMIC) || '600')+');\n';
+				else if (movement==='7')
+					code+='lars.upDown('+(Blockly.Arduino.valueToCode(this, 'INP1', Blockly.Arduino.ORDER_ATOMIC) || '1')+','+(Blockly.Arduino.valueToCode(this, 'INP2', Blockly.Arduino.ORDER_ATOMIC) || '5000')+');\n';
+				else if (movement==='8')
+					code+='lars.pushUp('+(Blockly.Arduino.valueToCode(this, 'INP1', Blockly.Arduino.ORDER_ATOMIC) || '1')+','+(Blockly.Arduino.valueToCode(this, 'INP2', Blockly.Arduino.ORDER_ATOMIC) || '600')+');\n';
+				else if (movement==='9')
+					code+='lars.walk('+this.getFieldValue('FIELD3')+','+(Blockly.Arduino.valueToCode(this, 'INP1', Blockly.Arduino.ORDER_ATOMIC) || '1')+','+(Blockly.Arduino.valueToCode(this, 'INP2', Blockly.Arduino.ORDER_ATOMIC) || '800')+');\n';
+				else if (movement==='10')
+					code+='lars.omniWalk('+(Blockly.Arduino.valueToCode(this, 'INP1', Blockly.Arduino.ORDER_ATOMIC) || '1')+','+(Blockly.Arduino.valueToCode(this, 'INP2', Blockly.Arduino.ORDER_ATOMIC) || '800')+','+this.getFieldValue('FIELD3')+','+(Blockly.Arduino.valueToCode(this, 'INP4', Blockly.Arduino.ORDER_ATOMIC) || '0')+');\n';
+				return code;
+			}
 
-  }
-};
-
-Blockly.Arduino['walk_forward'] = function(block) {
-	Blockly.Arduino.setups_['setup_']='robot.init();\n ';
-	var input_shall_walk = Blockly.Arduino.valueToCode(block, 'shall_walk', Blockly.Arduino.ORDER_ATOMIC);
-  Blockly.Arduino.definitions_['define_lars_h']='#include <LARS.h>';
-  Blockly.Arduino.definitions_['declare_var_define_robot']='LARS robot;';
-  var code='';
-  code+='robot.walk();\n';
-  code+= '\n';
-  return code;
-};
-
-Blockly.Blocks['walk_backward'] = {
-  category: Facilino.locales.getKey('LANG_CATEGORY_BLOCKS'),
-  helpUrl: Facilino.getHelpUrl('walk_backward'),
-  tags: [],
-  examples: [],
-	  init: function() {
-	this.setPreviousStatement(true, null);
-	this.setNextStatement(true, null);
-    this.appendDummyInput()
-        .appendField("Walking_Back");
-    this.setColour("#FF00FF");
-    this.setTooltip("");
-
-  }
-};
-
-Blockly.Arduino['walk_backward'] = function(block) {
-	Blockly.Arduino.setups_['setup_']='robot.init();\n ';
-	var input_shall_walk = Blockly.Arduino.valueToCode(block, 'shall_walk', Blockly.Arduino.ORDER_ATOMIC);
-  Blockly.Arduino.definitions_['define_lars_h']='#include <LARS.h>';
-  Blockly.Arduino.definitions_['declare_var_define_robot']='LARS robot;';
-  var code='';
-  code+='robot.walk(0);\n';
-  code+= '\n';
-  return code;
-};
-
-Blockly.Blocks['Turn_R'] = {
-  category: Facilino.locales.getKey('LANG_CATEGORY_BLOCKS'),
-  helpUrl: Facilino.getHelpUrl('Turn_R'),
-  tags: [],
-  examples: [],
-	  init: function() {
-	this.setPreviousStatement(true, null);
-	this.setNextStatement(true, null);
-    this.appendDummyInput()
-        .appendField("Turn_Right");
-    this.setColour("#FF00FF");
-    this.setTooltip("");
-
-  }
-};
-
-Blockly.Arduino['Turn_R'] = function(block) {
-	Blockly.Arduino.setups_['setup_']='robot.init();\n ';
-	var input_shall_walk = Blockly.Arduino.valueToCode(block, 'shall_walk', Blockly.Arduino.ORDER_ATOMIC);
-  Blockly.Arduino.definitions_['define_lars_h']='#include <LARS.h>';
-  Blockly.Arduino.definitions_['declare_var_define_robot']='LARS robot;';
-  var code='';
-  code+='robot.turnR(1, 550);\n';
-  code+= '\n';
-  return code;
-};
-
-Blockly.Blocks['Turn_L'] = {
-  category: Facilino.locales.getKey('LANG_CATEGORY_BLOCKS'),
-  helpUrl: Facilino.getHelpUrl('Turn_L'),
-  tags: [],
-  examples: [],
-	  init: function() {
-	this.setPreviousStatement(true, null);
-	this.setNextStatement(true, null);
-    this.appendDummyInput()
-        .appendField("Turn_Left");
-    this.setColour("#FF00FF");
-    this.setTooltip("");
-
-  }
-};
-
-Blockly.Arduino['Turn_L'] = function(block) {
-	Blockly.Arduino.setups_['setup_']='robot.init();\n ';
-	var input_shall_walk = Blockly.Arduino.valueToCode(block, 'shall_walk', Blockly.Arduino.ORDER_ATOMIC);
-  Blockly.Arduino.definitions_['define_lars_h']='#include <LARS.h>';
-  Blockly.Arduino.definitions_['declare_var_define_robot']='LARS robot;';
-  var code='';
-  code+='robot.turnL(1, 550);\n';
-  code+= '\n';
-  return code;
-};
-
-Blockly.Blocks['PushUp'] = {
-  category: Facilino.locales.getKey('LANG_CATEGORY_BLOCKS'),
-  helpUrl: Facilino.getHelpUrl('PushUp'),
-  tags: [],
-  examples: [],
-	  init: function() {
-	this.setPreviousStatement(true, null);
-	this.setNextStatement(true, null);
-    this.appendDummyInput()
-        .appendField("Push_Up");
-    this.setColour("#FF00FF");
-    this.setTooltip("");
-
-  }
-};
-
-Blockly.Arduino['PushUp'] = function(block) {
-	Blockly.Arduino.setups_['setup_']='robot.init();\n ';
-	var input_shall_walk = Blockly.Arduino.valueToCode(block, 'shall_walk', Blockly.Arduino.ORDER_ATOMIC);
-  Blockly.Arduino.definitions_['define_lars_h']='#include <LARS.h>';
-  Blockly.Arduino.definitions_['declare_var_define_robot']='LARS robot;';
-  var code='';
-  code+='robot.pushUp(1, 600);\n';
-  code+= '\n';
-  return code;
-};
-
-Blockly.Blocks['UpDown'] = {
-  category: Facilino.locales.getKey('LANG_CATEGORY_BLOCKS'),
-  helpUrl: Facilino.getHelpUrl('UpDown'),
-  tags: [],
-  examples: [],
-	  init: function() {
-	this.setPreviousStatement(true, null);
-	this.setNextStatement(true, null);
-    this.appendDummyInput()
-        .appendField("Up_Down");
-    this.setColour("#FF00FF");
-    this.setTooltip("");
-
-  }
-};
-
-Blockly.Arduino['UpDown'] = function(block) {
-	Blockly.Arduino.setups_['setup_']='robot.init();\n ';
-	var input_shall_walk = Blockly.Arduino.valueToCode(block, 'shall_walk', Blockly.Arduino.ORDER_ATOMIC);
-  Blockly.Arduino.definitions_['define_lars_h']='#include <LARS.h>';
-  Blockly.Arduino.definitions_['declare_var_define_robot']='LARS robot;';
-  var code='';
-  code+='robot.upDown(1, 5000);\n';
-  code+= '\n';
-  return code;
-};
-
-Blockly.Blocks['Dance'] = {
-  category: Facilino.locales.getKey('LANG_CATEGORY_BLOCKS'),
-  helpUrl: Facilino.getHelpUrl('Dance'),
-  tags: [],
-  examples: [],
-	  init: function() {
-	this.setPreviousStatement(true, null);
-	this.setNextStatement(true, null);
-    this.appendDummyInput()
-        .appendField("Dance");
-    this.setColour("#FF00FF");
-    this.setTooltip("");
-
-  }
-};
-
-Blockly.Arduino['Dance'] = function(block) {
-	Blockly.Arduino.setups_['setup_']='robot.init();\n ';
-	var input_shall_walk = Blockly.Arduino.valueToCode(block, 'shall_walk', Blockly.Arduino.ORDER_ATOMIC);
-  Blockly.Arduino.definitions_['define_lars_h']='#include <LARS.h>';
-  Blockly.Arduino.definitions_['declare_var_define_robot']='LARS robot;';
-  var code='';
-  code+='robot.dance(1, 600);\n';
-  code+= '\n';
-  return code;
-};
-
-Blockly.Blocks['Wave'] = {
-  category: Facilino.locales.getKey('LANG_CATEGORY_BLOCKS'),
-  helpUrl: Facilino.getHelpUrl('Wave'),
-  tags: [],
-  examples: [],
-	  init: function() {
-	this.setPreviousStatement(true, null);
-	this.setNextStatement(true, null);
-    this.appendDummyInput()
-        .appendField("Wave");
-    this.setColour("#FF00FF");
-    this.setTooltip("");
-
-  }
-};
-
-Blockly.Arduino['Wave'] = function(block) {
-	Blockly.Arduino.setups_['setup_']='robot.init();\n ';
-	var input_shall_walk = Blockly.Arduino.valueToCode(block, 'shall_walk', Blockly.Arduino.ORDER_ATOMIC);
-  Blockly.Arduino.definitions_['define_lars_h']='#include <LARS.h>';
-  Blockly.Arduino.definitions_['declare_var_define_robot']='LARS robot;';
-  var code='';
-  code+='robot.wave();\n';
-  code+= '\n';
-  return code;
-};
-
-Blockly.Blocks['Slow_Turn_R'] = {
-  category: Facilino.locales.getKey('LANG_CATEGORY_BLOCKS'),
-  helpUrl: Facilino.getHelpUrl('Slow_Turn_R'),
-  tags: [],
-  examples: [],
-	  init: function() {
-	this.setPreviousStatement(true, null);
-	this.setNextStatement(true, null);
-    this.appendDummyInput()
-        .appendField("Slow_Turn_Right");
-    this.setColour("#FF00FF");
-    this.setTooltip("");
-
-  }
-};
-
-Blockly.Arduino['Slow_Turn_R'] = function(block) {
-	Blockly.Arduino.setups_['setup_']='robot.init();\n ';
-	var input_shall_walk = Blockly.Arduino.valueToCode(block, 'shall_walk', Blockly.Arduino.ORDER_ATOMIC);
-  Blockly.Arduino.definitions_['define_lars_h']='#include <LARS.h>';
-  Blockly.Arduino.definitions_['declare_var_define_robot']='LARS robot;';
-  var code='';
-  code+='robot.omniWalk(1, 600, true, 1);\n';
-  code+= '\n';
-  return code;
-};
-
-Blockly.Blocks['Slow_Turn_L'] = {
-  category: Facilino.locales.getKey('LANG_CATEGORY_BLOCKS'),
-  helpUrl: Facilino.getHelpUrl('Slow_Turn_L'),
-  tags: [],
-  examples: [],
-	  init: function() {
-	this.setPreviousStatement(true, null);
-	this.setNextStatement(true, null);
-    this.appendDummyInput()
-        .appendField("Slow_Turn_Left");
-    this.setColour("#FF00FF");
-    this.setTooltip("");
-
-  }
-};
-
-Blockly.Arduino['Slow_Turn_L'] = function(block) {
-	Blockly.Arduino.setups_['setup_']='robot.init();\n ';
-	var input_shall_walk = Blockly.Arduino.valueToCode(block, 'shall_walk', Blockly.Arduino.ORDER_ATOMIC);
-  Blockly.Arduino.definitions_['define_lars_h']='#include <LARS.h>';
-  Blockly.Arduino.definitions_['declare_var_define_robot']='LARS robot;';
-  var code='';
-  code+='robot.omniWalk(1, 600, false, 1);\n';
-  code+= '\n';
-  return code;
-};
-
-Blockly.Blocks['MoonWalk'] = {
-  category: Facilino.locales.getKey('LANG_CATEGORY_BLOCKS'),
-  helpUrl: Facilino.getHelpUrl('MoonWalk'),
-  tags: [],
-  examples: [],
-	  init: function() {
-	this.setPreviousStatement(true, null);
-	this.setNextStatement(true, null);
-    this.appendDummyInput()
-        .appendField("Moonwalk");
-    this.setColour("#FF00FF");
-    this.setTooltip("");
-
-  }
-};
-
-Blockly.Arduino['MoonWalk'] = function(block) {
-	Blockly.Arduino.setups_['setup_']='robot.init();\n ';
-	var input_shall_walk = Blockly.Arduino.valueToCode(block, 'shall_walk', Blockly.Arduino.ORDER_ATOMIC);
-  Blockly.Arduino.definitions_['define_lars_h']='#include <LARS.h>';
-  Blockly.Arduino.definitions_['declare_var_define_robot']='LARS robot;';
-  var code='';
-  code+='robot.moonwalkL(1, 5000);\n';
-  code+= '\n';
-  return code;
-};
-
-Blockly.Blocks['Hello'] = {
-  category: Facilino.locales.getKey('LANG_CATEGORY_BLOCKS'),
-  helpUrl: Facilino.getHelpUrl('Hello'),
-  tags: [],
-  examples: [],
-	  init: function() {
-	this.setPreviousStatement(true, null);
-	this.setNextStatement(true, null);
-    this.appendDummyInput()
-        .appendField("Audience_Hello");
-    this.setColour("#FF00FF");
-    this.setTooltip("");
-
-  }
-};
-
-Blockly.Arduino['Hello'] = function(block) {
-	Blockly.Arduino.setups_['setup_']='robot.init();\n ';
-	var input_shall_walk = Blockly.Arduino.valueToCode(block, 'shall_walk', Blockly.Arduino.ORDER_ATOMIC);
-  Blockly.Arduino.definitions_['define_lars_h']='#include <LARS.h>';
-  Blockly.Arduino.definitions_['declare_var_define_robot']='LARS robot;';
-  var code='';
-  code+='robot.hello();\n';
-  code+= '\n';
-  return code;
-};
+			Blockly.Blocks['LARS_movement'] = {
+				category: Facilino.locales.getKey('LANG_CATEGORY_MOVEMENT'),
+				subcategory: Facilino.locales.getKey('LANG_SUBCATEGORY_WALK'),
+				tags: [],
+				helpUrl: Facilino.getHelpUrl('LARS_movement'),
+				examples: [],
+				category_colour: Facilino.LANG_COLOUR_MOVEMENT,
+				colour: Facilino.LANG_COLOUR_MOVEMENT_WALK,
+				init: function() {
+					this.setColour(Facilino.LANG_COLOUR_MOVEMENT_WALK);
+					var movement = new Blockly.FieldDropdown([
+					[Facilino.locales.getKey('LANG_LARS_MOVEMENT_HOME'),'0'],
+					[Facilino.locales.getKey('LANG_LARS_MOVEMENT_HELLO'),'1'],
+					[Facilino.locales.getKey('LANG_LARS_MOVEMENT_WAVE'),'2'],
+					[Facilino.locales.getKey('LANG_LARS_MOVEMENT_TURN_LEFT'),'3'],
+					[Facilino.locales.getKey('LANG_LARS_MOVEMENT_TURN_RIGHT'),'4'],
+					[Facilino.locales.getKey('LANG_LARS_MOVEMENT_MOONWALK'),'5'],
+					[Facilino.locales.getKey('LANG_LARS_MOVEMENT_DANCE'),'6'],
+					[Facilino.locales.getKey('LANG_LARS_MOVEMENT_UPDOWN'),'7'],
+					[Facilino.locales.getKey('LANG_LARS_MOVEMENT_PUSHUP'),'8'],
+					[Facilino.locales.getKey('LANG_LARS_MOVEMENT_WALK'),'9'],
+					[Facilino.locales.getKey('LANG_LARS_MOVEMENT_OMNIWALK'),'10']
+					]);
+				this.appendDummyInput().appendField(new Blockly.FieldImage('img/blocks/LARS.svg', 32*options.zoom, 32*options.zoom)).appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT'));
+				this.appendDummyInput('').appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT_MOVEMENT')).appendField(movement,'MOVEMENT').setAlign(Blockly.ALIGN_RIGHT);
+				this.last_movement = -1;
+				this._inp1_removed = true;
+				this._inp2_removed = true;
+				this._inp3_removed = true;
+				this._inp4_removed = true;
+				this.checkMovement();
+				this.last_movement = this.getFieldValue('MOVEMENT');
+				this.setInputsInline(false);
+				this.setPreviousStatement(true,'code');
+					this.setNextStatement(true,'code');
+				this.setOutput(false);
+					this.setTooltip(Facilino.locales.getKey('LANG_LARS_MOVEMENT_TOOLTIP'));
+				},
+				checkMovement: function() {
+				var _movement = this.getFieldValue('MOVEMENT');
+					try {
+							if (_movement<10)
+							{
+								this._inp4_removed=true;
+								this.removeInput('INP4');
+							}
+					} catch (e) {}
+					try {
+							if (_movement<9)
+							{
+								this._inp3_removed=true;
+								this.removeInput('INP3');
+							}
+					} catch (e) {}
+					try {
+							if (_movement<3)
+							{
+								this._inp2_removed=true;
+								this.removeInput('INP2');
+							}
+					} catch (e) {}
+					try {
+						if (_movement<2)
+							{
+								this._inp1_removed=true;
+								this.removeInput('INP1');
+							}
+					} catch (e) {}	
+					if ( _movement === '2') {
+						if (this._inp1_removed)
+						{
+							this.appendValueInput('INP1').setCheck(Number).appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT_LEG_NUMBER'),'TEXT1').setAlign(Blockly.ALIGN_RIGHT);
+							this._inp1_removed=false;
+						}
+						else
+							try{this.setFieldValue(Facilino.locales.getKey('LANG_LARS_MOVEMENT_LEG_NUMBER'),'TEXT1');}catch (e) {}	
+					} else if (( _movement >= '3')&&( _movement <= '8')) {
+						if (this._inp1_removed)
+						{
+							this.appendValueInput('INP1').setCheck(Number).appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT_STEPS'),'TEXT1').setAlign(Blockly.ALIGN_RIGHT);
+							this._inp1_removed=false;
+						}
+						else
+							try{this.setFieldValue(Facilino.locales.getKey('LANG_LARS_MOVEMENT_STEPS'),'TEXT1');}catch (e) {}	
+						if (this._inp2_removed)
+						{
+							this.appendValueInput('INP2').setCheck(Number).appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT_PERIOD','TEXT2')).setAlign(Blockly.ALIGN_RIGHT);
+							this._inp2_removed=false;
+						}
+						else 
+							try{this.setFieldValue(Facilino.locales.getKey('LANG_LARS_MOVEMENT_PERIOD'),'TEXT2');}catch (e) {}	
+					} else if ( _movement === '9') {
+						if (this._inp1_removed)
+						{
+							this.appendValueInput('INP1').setCheck(Number).appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT_STEPS'),'TEXT1').setAlign(Blockly.ALIGN_RIGHT);
+							this._inp1_removed=false;
+						}
+						else
+							try{this.setFieldValue(Facilino.locales.getKey('LANG_LARS_MOVEMENT_STEPS'),'TEXT1');}catch (e) {}
+						if (this._inp2_removed)
+						{
+							this.appendValueInput('INP2').setCheck(Number).appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT_PERIOD'),'TEXT2').setAlign(Blockly.ALIGN_RIGHT);
+							this._inp2_removed=false;
+						}
+						else
+							try{this.setFieldValue(Facilino.locales.getKey('LANG_LARS_MOVEMENT_PERIOD'),'TEXT2');}catch (e) {}	
+						if (this._inp3_removed)
+						{
+							this.appendDummyInput('INP3').appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT_DIR'),'TEXT3').appendField(new Blockly.FieldDropdown([['Forward','0'],['Backward','1']]),'FIELD3').setAlign(Blockly.ALIGN_RIGHT);
+							this._inp3_removed=false;
+						}
+						else
+							try{this.setFieldValue(Facilino.locales.getKey('LANG_LARS_MOVEMENT_DIR'),'TEXT3'); this.getInput('INP3').removeField('FIELD3'); this.getInput('INP3').appendField(new Blockly.FieldDropdown([['Forward','0'],['Backward','1']]),'FIELD3');}catch (e) {}	
+					}
+					else if ( _movement === '10') {
+						if (this._inp1_removed)
+						{
+							this.appendValueInput('INP1').setCheck(Number).appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT_STEPS'),'TEXT1').setAlign(Blockly.ALIGN_RIGHT);
+							this._inp1_removed=false;
+						}
+						else
+							try{this.setFieldValue(Facilino.locales.getKey('LANG_LARS_MOVEMENT_STEPS'),'TEXT1');}catch (e) {}
+						if (this._inp2_removed)
+						{
+							this.appendValueInput('INP2').setCheck(Number).appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT_PERIOD'),'TEXT2').setAlign(Blockly.ALIGN_RIGHT);
+							this._inp2_removed=false;
+						}
+						else
+							try{this.setFieldValue(Facilino.locales.getKey('LANG_LARS_MOVEMENT_PERIOD'),'TEXT2');}catch (e) {}
+						if (this._inp3_removed)
+						{
+							this.appendDummyInput('INP3').appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT_DIR'),'TEXT3').appendField(new Blockly.FieldDropdown([['Yes','true'],['No','false']]),'FIELD3').setAlign(Blockly.ALIGN_RIGHT);
+							this._inp3_removed=false;
+						}
+						else
+							try{this.setFieldValue(Facilino.locales.getKey('LANG_LARS_MOVEMENT_SIDE'),'TEXT3'); this.getInput('INP3').removeField('FIELD3'); this.getInput('INP3').appendField(new Blockly.FieldDropdown([['Yes','true'],['No','false']]),'FIELD3');}catch (e) {}
+						if (this._inp4_removed)
+						{
+							this.appendValueInput('INP4').setCheck(Number).appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT_TURN_FACTOR'),'TEXT4').setAlign(Blockly.ALIGN_RIGHT);
+							this._inp4_removed=false;
+						}
+						else
+							try{this.setFieldValue(Facilino.locales.getKey('LANG_LARS_MOVEMENT_TURN_FACTOR'),'TEXT4');}catch (e) {}
+						
+					}
+				},
+				onchange: function() {
+					if (this.getFieldValue('MOVEMENT') !== this.last_movement) {
+						this.checkMovement();
+						this.last_movement = this.getFieldValue('MOVEMENT');
+					}
+				}
+			};
