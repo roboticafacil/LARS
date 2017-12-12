@@ -1,9 +1,23 @@
-// Example of the LARS Movement library using the ESPUI Webinferface by Lukas Bachschwell
+// Example of the LARS Movement library using the ESPUI Webinferface and the SimleExpressions Library by Lukas Bachschwell
+#include <SimpleExpressions.h>
 #include <WiFi.h>
 #include <ESPUI.h>
 #include <LARS.h>
 
-LARS robot; // using default ESP32 pinning values for constructor
+#define ledDataPin 27 // cannot use
+#define beeperPin 17 // cannot use
+
+#define echoPin 5 // cannot use
+#define triggerPin 23 //cannot use
+
+#define checkTime 1000
+#define warningDistance 20
+long oldTime = 0;
+bool warning = false;
+
+const char* ssid = "Lars";
+
+LARS robot;
 
 boolean walk_forward = false;
 boolean walk_backward = false;
@@ -21,8 +35,8 @@ boolean PushUp = false;
 void setup() {
   Serial.begin(115200);
   WiFi.mode(WIFI_AP);
-  WiFi.setHostname("Lars");
-  WiFi.softAP("Lars");
+  WiFi.setHostname(ssid);
+  WiFi.softAP(ssid);
   Serial.println("");
   Serial.print("IP address: ");
   Serial.println(WiFi.softAPIP());
@@ -40,25 +54,73 @@ void setup() {
 
   ESPUI.begin("Crabby Control");
 
-  robot.init();
+  SimpleExpressions.init(ledDataPin, beeperPin);
+  SimpleExpressions.clearMouth();
+
+  SimpleExpressions.writeMouth("happySmall", 0, 0, 80);
+  SimpleExpressions.playSound(S_SUPER_HAPPY);
+  SimpleExpressions.writeMouth("happyFull", 0, 60, 100);
+
+
+
+/*
+How to wire:
+
+init(FRH, FLH, BRH, BLH, FRL, FLL, BRL, BLL)
+
+  Leg        Hip    Face    Hip         Leg
+   __________ __________ _________________
+  |(FLL)_____)(FLH)      (FRH)(______(FRL)|
+  |__|       |left FRONT right|        |__|
+             |                |
+             |                |
+             |                |
+   _________ |                | __________
+  |(BLL)_____)(BLH)______(BRH)(______(BRL)|
+  |__|                                 |__|
+
+*/
+
+  robot.init(26, 25, 17, 16, 27, 5, 23, 13); // Calling init with default values
   delay(1000);
 }
+
+void loop() {
+  if (millis() - oldTime > checkTime) {
+    checkDistance();
+    oldTime = millis();
+  }
+  
+  if (walk_forward) robot.walk(0);
+  else if (walk_backward) robot.walk();
+  else if (hello) robot.hello();
+  else if (turn_left) robot.turnL(1, 550);
+  else if (turn_right) robot.turnR(1, 550);
+  else if (moonwalk) robot.moonwalk(1, 5000);
+  else if (audience) robot.wave(1);
+  else if (dance) robot.dance(1, 600);
+  else if (omni) robot.omniWalk(1, 600, true, 1);
+  else if (omni_left) robot.omniWalk(1, 600, false, 1);
+  else if (PushUp) robot.pushUp(1, 600);
+  else if (upDown) robot.upDown(1, 5000);
+  else robot.home();
+
+}
+
+// UI Callbacks
 
 void audienceWaveButton(Control c, int type) {
   if (type == B_DOWN) {
     audience = true;
-  }
-  else {
+  } else {
     audience = false;
   }
 }
 
-
 void moonWalkButton(Control c, int type) {
   if (type == B_DOWN) {
     moonwalk = true;
-  }
-  else {
+  } else {
     moonwalk = false;
   }
 }
@@ -66,32 +128,31 @@ void moonWalkButton(Control c, int type) {
 void danceButton(Control c, int type) {
   if (type == B_DOWN) {
     dance = true;
-  }
-  else {
+  } else {
     dance = false;
   }
 }
+
 void pushUpButton(Control c, int type) {
   if (type == B_DOWN) {
     PushUp = true;
-  }
-  else {
+  } else {
     PushUp = false;
   }
 }
+
 void upDownButton(Control c, int type) {
   if (type == B_DOWN) {
     upDown = true;
-  }
-  else {
+  } else {
     upDown = false;
   }
 }
+
 void slowTurnRight(Control c, int type) {
   if (type == B_DOWN) {
     omni = true;
-  }
-  else {
+  } else {
     omni = false;
   }
 }
@@ -99,8 +160,7 @@ void slowTurnRight(Control c, int type) {
 void slowTurnLeft(Control c, int type) {
   if (type == B_DOWN) {
     omni_left = true;
-  }
-  else {
+  } else {
     omni_left = false;
   }
 }
@@ -157,20 +217,51 @@ void wavePad(Control c, int value) {
   }
 }
 
-void loop() {
+// Ultrasonic Sensor
 
-  if (walk_forward) robot.walk(0);
-  else if (walk_backward) robot.walk();
-  else if (hello) robot.hello();
-  else if (turn_left) robot.turnL(1, 550);
-  else if (turn_right) robot.turnR(1, 550);
-  else if (moonwalk) robot.moonwalk(1, 5000);
-  else if (audience) robot.wave(1);
-  else if (dance) robot.dance(1, 600);
-  else if (omni) robot.omniWalk(1, 600, true, 1);
-  else if (omni_left) robot.omniWalk(1, 600, false, 1);
-  else if (PushUp) robot.pushUp(1, 600);
-  else if (upDown) robot.upDown(1, 5000);
-  else robot.home();
+void checkDistance() {
+  int d = distance(triggerPin, echoPin);
+  ESPUI.print("Distance", String(d));
+  if (d < warningDistance) {
+    delay(100);
+    d = distance(triggerPin, echoPin);
+    if (d < warningDistance) {
+      if(!warning) {
+        SimpleExpressions.writeMouth("sadFull", 100, 0, 0);
+        SimpleExpressions.writeMouth("sadFull", 100, 0, 0); // only twice please
+        }
+      SimpleExpressions.playSound(S_CONFUSED);
+      warning = true;
+    }
+  } else {
+    if (warning) {
+      SimpleExpressions.writeMouth("happyFull", 0, 60, 100);
+      SimpleExpressions.writeMouth("happyFull", 0, 60, 100); // only twice please
+      warning = false;
+    }
+  }
+}
 
+
+
+long US_init(int trigger_pin, int echo_pin)
+{
+  digitalWrite(trigger_pin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigger_pin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigger_pin, LOW);
+
+  return pulseIn(echo_pin, HIGH, 100000);
+}
+
+long distance(int trigger_pin, int echo_pin)
+{
+  long microseconds = US_init(trigger_pin, echo_pin);
+  long distance;
+  distance = microseconds / 29 / 2;
+  if (distance == 0) {
+    distance = 999;
+  }
+  return distance;
 }

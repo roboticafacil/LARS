@@ -1,7 +1,7 @@
 // Example of the LARS Movement library
 #include <LARS.h>
 
-LARS robot; // using default ESP32 pinning values for constructor
+LARS robot;
 
 boolean walk_forward = false;
 boolean walk_backward = false;
@@ -19,7 +19,25 @@ boolean PushUp = false;
 void setup() {
   Serial.begin(115200);
 
-  robot.init();
+  /*
+  How to wire:
+
+  init(FRH, FLH, BRH, BLH, FRL, FLL, BRL, BLL)
+
+    Leg        Hip    Face    Hip         Leg
+     __________ __________ _________________
+    |(FLL)_____)(FLH)      (FRH)(______(FRL)|
+    |__|       |left FRONT right|        |__|
+               |                |
+               |                |
+               |                |
+     _________ |                | __________
+    |(BLL)_____)(BLH)______(BRH)(______(BRL)|
+    |__|                                 |__|
+
+  */
+
+  robot.init(26, 25, 17, 16, 27, 5, 23, 13); // Calling init with default values
   delay(500);
 }
 
