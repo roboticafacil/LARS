@@ -5,6 +5,16 @@
 		{
 			"keys": 
 			{
+				"LANG_SUBCATEGORY_WALK": "Robot walk",
+				"LANG_MOVEMENT_LARS_ROBOT": "Define robot",
+				"LANG_MOVEMENT_LARS_FRH": "Hip 1",
+				"LANG_MOVEMENT_LARS_BRH": "Hip 2",
+				"LANG_MOVEMENT_LARS_BLH": "Hip 3",
+				"LANG_MOVEMENT_LARS_FLH": "Hip 4",
+				"LANG_MOVEMENT_LARS_FRL": "Leg 1",
+				"LANG_MOVEMENT_LARS_BRL": "Leg 2",
+				"LANG_MOVEMENT_LARS_BLL": "Leg 3",
+				"LANG_MOVEMENT_LARS_FLL": "Leg 4",
 				"LANG_LARS_INIT_TOOLTIP": "Defines the servo pins for a quadruped robot.",
 				"LANG_LARS_MOVEMENT": "Move robot",
 				"LANG_LARS_MOVEMENT_MOVEMENT": "Movement",
