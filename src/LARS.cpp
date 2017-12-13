@@ -16,40 +16,23 @@
 */
 
 
-LARS::LARS(int FRH, int FLH, int BRH, int BLH, int FRL, int FLL, int BRL, int BLL): reverse{0, 0, 0, 0, 0, 0, 0, 0}, trim{0, 0, 0, 0, 0, 0, 0, 0} {
-  board_pins[FRONT_RIGHT_HIP] = FRH; // front right inner
-	board_pins[FRONT_LEFT_HIP] = FLH; // front left inner
-	board_pins[BACK_RIGHT_HIP] = BRH; // back right inner
-	board_pins[BACK_LEFT_HIP] = BLH; // back left inner
-	board_pins[FRONT_RIGHT_LEG] = FRL; // front right outer
-	board_pins[FRONT_LEFT_LEG] = FLL; //  front left outer       // POSITIONS LOOKING FROM THE MIDDLE OF THE ROBOT!!!!!
-	board_pins[BACK_RIGHT_LEG] = BRL; // back right outer
-	board_pins[BACK_LEFT_LEG] = BLL; // back left outer
+LARS::LARS(): reverse{0, 0, 0, 0, 0, 0, 0, 0}, trim{0, 0, 0, 0, 0, 0, 0, 0} {
 }
 
-void LARS::init() {
-  /*
-     trim[] for calibrating servo deviation,
-     initial posture (home) should like below
-     in symmetric
-        \       /
-         \_____/
-         |     |
-         |_____|
-         /     \
-        /       \
-  */
-  /*
-    trim[FRONT_LEFT_HIP] = 0;
-    trim[FRONT_RIGHT_HIP] = -8;
-    trim[BACK_LEFT_HIP] = 8;
-    trim[BACK_RIGHT_HIP] = 5;
+void LARS::init(){
+  init(26, 25, 17, 16, 27, 5, 23, 13); // Calling init with default values
+}
 
-    trim[FRONT_LEFT_LEG] = 2;
-    trim[FRONT_RIGHT_LEG] = -6;
-    trim[BACK_LEFT_LEG] = 6;
-    trim[BACK_RIGHT_LEG] = 5;
-  */
+void LARS::init(int FRH, int FLH, int BRH, int BLH, int FRL, int FLL, int BRL, int BLL) {
+
+  board_pins[FRONT_RIGHT_HIP] = FRH; // front right inner
+  board_pins[FRONT_LEFT_HIP] = FLH; // front left inner
+  board_pins[BACK_RIGHT_HIP] = BRH; // back right inner
+  board_pins[BACK_LEFT_HIP] = BLH; // back left inner
+  board_pins[FRONT_RIGHT_LEG] = FRL; // front right outer
+  board_pins[FRONT_LEFT_LEG] = FLL; //  front left outer       // POSITIONS LOOKING FROM THE MIDDLE OF THE ROBOT!!!!!
+  board_pins[BACK_RIGHT_LEG] = BRL; // back right outer
+  board_pins[BACK_LEFT_LEG] = BLL; // back left outer
 
   for (int i = 0; i < 8; i++) {
     oscillator[i].start();
