@@ -178,7 +178,7 @@ Blockly.Arduino['LARS_movement'] = function() {
 							try{this.setFieldValue(Facilino.locales.getKey('LANG_LARS_MOVEMENT_PERIOD'),'TEXT2');}catch (e) {}	
 						if (this._inp3_removed)
 						{
-							this.appendDummyInput('INP3').appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT_DIR'),'TEXT3').appendField(new Blockly.FieldDropdown([['Forward','0'],['Backward','1']]),'FIELD3').setAlign(Blockly.ALIGN_RIGHT);
+							this.appendDummyInput('INP3').appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT_DIR'),'TEXT3').appendField(new Blockly.FieldDropdown([[Facilino.locales.getKey('LANG_LARS_MOVEMENT_FORWARD'),'0'],[Facilino.locales.getKey('LANG_LARS_MOVEMENT_BACKWARD'),'1']]),'FIELD3').setAlign(Blockly.ALIGN_RIGHT);
 							this._inp3_removed=false;
 						}
 						else
@@ -201,7 +201,7 @@ Blockly.Arduino['LARS_movement'] = function() {
 							try{this.setFieldValue(Facilino.locales.getKey('LANG_LARS_MOVEMENT_PERIOD'),'TEXT2');}catch (e) {}
 						if (this._inp3_removed)
 						{
-							this.appendDummyInput('INP3').appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT_DIR'),'TEXT3').appendField(new Blockly.FieldDropdown([['Yes','true'],['No','false']]),'FIELD3').setAlign(Blockly.ALIGN_RIGHT);
+							this.appendDummyInput('INP3').appendField(Facilino.locales.getKey('LANG_LARS_MOVEMENT_DIR'),'TEXT3').appendField(new Blockly.FieldDropdown([[Facilino.locales.getKey('LANG_LARS_MOVEMENT_YES'),'true'],[Facilino.locales.getKey('LANG_LARS_MOVEMENT_NO'),'false']]),'FIELD3').setAlign(Blockly.ALIGN_RIGHT);
 							this._inp3_removed=false;
 						}
 						else
